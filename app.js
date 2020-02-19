@@ -1,16 +1,20 @@
 // =================================
 // Solution
 // =================================
+
 function specialBag(arr) {
   let returnCount;
   const threeCount = arr.filter(item => item == 3).length;
   const twoCount = arr.filter(item => item == 2).length;
   const oneCount = arr.filter(item => item == 1).length;
-  returnCount = threeCount;
+  
+  returnCount = threeCount;  
   if (twoCount > oneCount) {
     returnCount += twoCount;
   } else {
-    returnCount += twoCount + Math.floor((oneCount - twoCount) / 3) + !!(oneCount - twoCount); 
+    // !! coerces the result to boolean, then + coerces boolean to number, 
+    // so the result of + !!((oneCount-twoCount)%3) can only be 0 or 1
+    returnCount += twoCount + Math.floor((oneCount - twoCount) / 3) + !!((oneCount - twoCount)%3); 
   }  
   return returnCount;
 }
@@ -18,6 +22,9 @@ function specialBag(arr) {
 // =================================
 // UI Related
 // =================================
+
+// Event Listeners
+
 document.querySelector('#submit').addEventListener('click', e => {
   e.preventDefault();
   const input = document.querySelector('#numbers').value;
@@ -36,9 +43,11 @@ document.querySelector('#numbers').addEventListener('keydown', e => {
   }
 });
 
+// Functions
+
 function verifyInput(arr) {
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] > 3  || arr[i] < 1 || isNaN(arr[i])) {
+    if (arr[i] > 3  || arr[i] < 0 || isNaN(arr[i])) {
       showError('Incorrect Input');
       return false;
     } 
@@ -56,6 +65,3 @@ function showError(message) {
   document.querySelector('#message').innerText = message;
   
 }
-
-
-
